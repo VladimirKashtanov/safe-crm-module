@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: safe-crm-module-postgres
+    environment:
+      POSTGRES_DB: safe_module_crm_db
+      POSTGRES_USER: crm_user
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - safe-module-crm-postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  safe-module-crm-postgres-data:
