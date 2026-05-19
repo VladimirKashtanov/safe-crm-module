@@ -1,7 +1,7 @@
 package org.voldymar.safecrmmodule.feature.shared.dto;
 
 /**
- * Описывает тип операции, к которой предоставляется доступ.
+ * Описывает DTO типа операции, к которой предоставляется доступ.
  */
 public enum OperationType {
 

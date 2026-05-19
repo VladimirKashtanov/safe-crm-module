@@ -4,33 +4,32 @@ import lombok.Builder;
 import org.voldymar.safecrmmodule.feature.shared.dto.AccessObject;
 import org.voldymar.safecrmmodule.feature.shared.dto.AccessSubject;
 
+import java.util.Map;
 
-/* Описывает событие безопасности */
+
+/**
+ * Описывает DTO события безопасности.
+ * @param type тип события (уровень важности).
+ * @param timestamp время формирования события.
+ * @param message сообщение события.
+ * @param decision решение о предоставлении доступа.
+ * @param reason причина предоставления/отказа доступа.
+ * @param subject субъект, запрашивающий доступ.
+ * @param object объект доступа.
+ * @param operation тип операции.
+ * @param context контекст доступа.
+ */
 @Builder
 public record SecurityEvent(
 
-        /* Тип события */
         String type,
-
-        /* Время формирования события */
         String timestamp,
-
-        /* Сообщение события */
         String message,
-
-        /* Решение о предоставлении доступа */
         String decision,
-
-        /* Причина отказа в доступе (поле актуально при отказе) */
         String reason,
-
-        /* Субъект, запрашивающий доступ */
         AccessSubject subject,
-
-        /* Объект доступа */
         AccessObject object,
-
-        /* Операция, разрешение для которой запрашивается субъектом */
-        String operation
+        String operation,
+        Map<String,String> context
 ) {
 }

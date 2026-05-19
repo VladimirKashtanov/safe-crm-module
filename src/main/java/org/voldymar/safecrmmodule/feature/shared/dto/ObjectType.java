@@ -1,7 +1,7 @@
 package org.voldymar.safecrmmodule.feature.shared.dto;
 
 /**
- * Описывает тип объекта, к которому предоставляется доступ.
+ * Описывает DTO типа объекта доступа.
  */
 public enum ObjectType {
 

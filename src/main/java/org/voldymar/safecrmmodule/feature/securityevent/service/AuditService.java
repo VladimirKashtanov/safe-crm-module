@@ -16,7 +16,9 @@ import org.voldymar.safecrmmodule.feature.shared.service.OperationMapper;
 import java.time.Instant;
 
 
-/* Описывает сервис генерации событий безопасности */
+/**
+ * Описывает сервис генерации событий безопасности.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuditService {
@@ -25,7 +27,13 @@ public class AuditService {
     private final OperationMapper operationMapper;
 
 
-    /* Формирует событие безопасности */
+    /**
+     * Формирует событие безопасности.
+     * @param request запрос доступа.
+     * @param decision решение о предоставлении доступа.
+     * @param reason причина предоставления/отказа доступа.
+     * @return сгенерированное событие безопасности.
+     */
     public SecurityEvent createSecurityEvent(
             AccessRequest request,
             String decision,
@@ -46,11 +54,17 @@ public class AuditService {
                 .subject(request.subject())
                 .object(request.object())
                 .operation(request.operation())
+                .context(request.context())
                 .build();
     }
 
 
-    /* Формирует сообщение для события безопасности */
+    /**
+     * Формирует сообщение для события безопасности.
+     * @param request запрос доступа.
+     * @param decision решение о предоставлении доступа.
+     * @return сгенерированное сообщение события безопасности.
+     */
     private String buildMessage(
             AccessRequest request,
             String decision
@@ -60,7 +74,16 @@ public class AuditService {
 
         boolean isPermitted = AccessType.PERMITTED.name().equals(decision);
 
-        /* Случай 1. У объекта доступа есть поля */
+        /* Случай 1. Операция CREATE */
+        if (request.operation().equals(OperationType.CREATE.name())) {
+            String decisionStr = isPermitted ? "разрешен" : "запрещен";
+            return String.format(
+                    "Доступ на операцию CREATE объекта %s",
+                    decisionStr
+            );
+        }
+
+        /* Случай 2. У объекта доступа есть поля */
         if (object.fields() != null && !object.fields().isEmpty()) {
             String fieldList = String.join(", ", object.fields());
 
@@ -74,7 +97,7 @@ public class AuditService {
             );
         }
 
-        /* Случай 2. У объекта доступа нет полей, но есть идентификатор */
+        /* Случай 3. У объекта доступа нет полей, но есть идентификатор */
         if (object.id() != null && !object.id().isEmpty()) {
             String decisionStr = isPermitted ? "разрешен" : "запрещен";
             return String.format(
@@ -85,10 +108,7 @@ public class AuditService {
             );
         }
 
-        /* Случай 3. У объекта нет идентификатора, но операция - CREATE */
-
-
-        /* Случай 4. Объект доступа не имеет идентификатор */
+        /* Прочие случаи */
         LOGGER.warn(
                 "Доступ к некорректному объекту доступа запрещен: subjectId='{}'",
                 request.subject().userId()

@@ -6,19 +6,19 @@ import org.voldymar.safecrmmodule.feature.shared.dto.AccessSubject;
 import java.util.Map;
 
 
-/* Описывает запрос доступа к объекту */
+/**
+ * Описывает DTO запроса доступа к объекту.
+ *
+ * @param subject   субъект, запрашивающий доступ.
+ * @param object    объект доступа.
+ * @param operation тип операции.
+ * @param context   контекст доступа.
+ */
 public record AccessRequest(
 
-        /* Субъект, запрашивающий доступ */
         AccessSubject subject,
-
-        /* Объект доступа */
         AccessObject object,
-
-        /* Операция, разрешение для которой запрашивается субъектом */
         String operation,
-
-        /* Контекст предоставления доступа */
         Map<String, String> context
 ) {
 }

@@ -3,13 +3,14 @@ package org.voldymar.safecrmmodule.feature.access.dto;
 import org.voldymar.safecrmmodule.feature.securityevent.dto.SecurityEvent;
 
 
-/* Описывает DTO ответа контроллера запроса доступа на операцию */
+/**
+ * Описывает DTO ответа на запрос доступа к объекту.
+ * @param decision решение о предоставлении доступа.
+ * @param securityEvent событие безопасности.
+ */
 public record AccessResponse(
 
-        /* Состояние решения о предоставлении доступа */
         String decision,
-
-        /* Событие безопасности */
         SecurityEvent securityEvent
 ) {
 }

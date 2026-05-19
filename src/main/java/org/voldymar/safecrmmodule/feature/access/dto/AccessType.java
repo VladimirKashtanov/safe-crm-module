@@ -1,11 +1,17 @@
 package org.voldymar.safecrmmodule.feature.access.dto;
 
-/* Описывает тип разрешения доступа */
+/**
+ * Описывает DTO типа разрешения доступа.
+ */
 public enum AccessType {
 
-    /* Доступ разрешен */
+    /**
+     * Доступ разрешен.
+     */
     PERMITTED,
 
-    /* Доступ разрешен */
+    /**
+     * Доступ запрещен.
+     */
     DENIED
 }
