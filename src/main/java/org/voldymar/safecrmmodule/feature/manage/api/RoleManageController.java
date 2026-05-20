@@ -18,12 +18,12 @@ import java.util.UUID;
  * Описывает контроллер операций управления ролями и политиками доступа.
  */
 @RestController
-@RequestMapping("/manage")
+@RequestMapping("/manage/role")
 @RequiredArgsConstructor
-public class ManageController {
+public class RoleManageController {
 
     private static final Logger LOGGER =
-            LoggerFactory.getLogger(ManageController.class);
+            LoggerFactory.getLogger(RoleManageController.class);
 
     /**
      * Сервис управления ролями и связями ролей и разрешений.
@@ -37,7 +37,7 @@ public class ManageController {
      * @param request запрос.
      * @return созданную сущность.
      */
-    @PostMapping("/role")
+    @PostMapping("/")
     public ResponseEntity<@NonNull UserRoleResponse> createRole(
             @RequestBody UserRoleRequest request
     ) {
@@ -60,7 +60,7 @@ public class ManageController {
      * @param id идентификатор роли для удаления.
      * @return удаленную сущность.
      */
-    @DeleteMapping("/role/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<@NonNull UserRoleResponse> deleteRole(
             @PathVariable UUID id
     ) {
