@@ -22,5 +22,18 @@ public interface UserRoleRepository
      * @param name имя роли.
      * @return Optional с ролью или пустой.
      */
-    Optional<UserRoleEntity> findByName(String name);
+    Optional<UserRoleEntity> findByName(
+            String name
+    );
+
+
+    /**
+     * Проверяет существование роли по ее имени.
+     *
+     * @param name имя роли пользователя.
+     * @return true, если роль с таким именем существует, false иначе.
+     */
+    boolean existsByName(
+            String name
+    );
 }

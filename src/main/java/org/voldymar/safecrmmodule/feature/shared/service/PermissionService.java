@@ -25,6 +25,16 @@ public class PermissionService {
 
 
     /**
+     * Находит разрешение по идентификатору.
+     * @param id идентификатор разрешения.
+     * @return Optional с разрешением или пустой.
+     */
+    public Optional<PermissionEntity> findById(UUID id) {
+        return permissionRepository.findById(id);
+    }
+
+
+    /**
      * Находит разрешение по идентификатору объекта и типу операции.
      *
      * @param objectId  идентификатор объекта доступа.
