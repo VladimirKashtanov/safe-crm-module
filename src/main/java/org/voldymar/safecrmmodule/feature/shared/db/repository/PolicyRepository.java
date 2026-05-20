@@ -24,4 +24,14 @@ public interface PolicyRepository
     List<PolicyEntity> findAllByEnabledTrueAndEffect(
             String effect
     );
+
+
+    /**
+     * Проверяет существование политики по имени.
+     * @param name имя политики.
+     * @return true, если политика с такими именем существует, false иначе.
+     */
+    boolean existsByName(
+            String name
+    );
 }

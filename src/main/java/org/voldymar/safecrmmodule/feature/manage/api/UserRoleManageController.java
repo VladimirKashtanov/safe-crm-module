@@ -18,12 +18,12 @@ import java.util.UUID;
  * Описывает контроллер операций управления ролями и политиками доступа.
  */
 @RestController
-@RequestMapping("/manage/role")
+@RequestMapping("/manage/user-role")
 @RequiredArgsConstructor
-public class RoleManageController {
+public class UserRoleManageController {
 
     private static final Logger LOGGER =
-            LoggerFactory.getLogger(RoleManageController.class);
+            LoggerFactory.getLogger(UserRoleManageController.class);
 
     /**
      * Сервис управления ролями и связями ролей и разрешений.
@@ -37,7 +37,7 @@ public class RoleManageController {
      * @param request запрос.
      * @return созданную сущность.
      */
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<@NonNull UserRoleResponse> createRole(
             @RequestBody UserRoleRequest request
     ) {
