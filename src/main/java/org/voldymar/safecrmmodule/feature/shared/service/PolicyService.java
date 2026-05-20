@@ -10,6 +10,7 @@ import org.voldymar.safecrmmodule.feature.shared.db.model.PolicyEntity;
 import org.voldymar.safecrmmodule.feature.shared.db.repository.PolicyRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -76,6 +77,37 @@ public class PolicyService {
 
         /* Сохранение политики */
         policy = this.policyRepository.save(policy);
+
+        /* Формирование ответа */
+        return new PolicyResponse(
+                policy.getId().toString(),
+                policy.getName(),
+                policy.getDescription(),
+                policy.getRuleExpression(),
+                policy.getEffect(),
+                policy.getCreatedAt() != null ?
+                        policy.getCreatedAt().toString() : null
+        );
+    }
+
+
+    /**
+     * Удаляет политику по указанному идентификатору.
+     *
+     * @param id идентификатор политики.
+     * @return удаленную сущность.
+     */
+    public PolicyResponse deleteOne(
+            UUID id
+    ) {
+        /* Проверка политики на существование */
+        PolicyEntity policy = this.policyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Политика не найдена: id=" + id
+                ));
+
+        /* Удаление политики */
+        policyRepository.deleteById(id);
 
         /* Формирование ответа */
         return new PolicyResponse(

@@ -6,13 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.voldymar.safecrmmodule.feature.manage.dto.PolicyRequest;
 import org.voldymar.safecrmmodule.feature.manage.dto.PolicyResponse;
 import org.voldymar.safecrmmodule.feature.shared.service.PolicyService;
+
+import java.util.UUID;
 
 
 /**
@@ -49,6 +48,27 @@ public class PolicyManageController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .body(response);
+    }
+
+
+    /**
+     * Удаляет политику доступа по указанному идентификатору.
+     * @param id идентификатор политики.
+     * @return удаленную сущность.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<@NonNull PolicyResponse> deletePolicy(
+            @PathVariable UUID id
+    ) {
+        LOGGER.debug("Method 'deletePolicy' was called");
+
+        /* Удаление сущности.
+         *  При ошибке управление передается глобальному обработчику. */
+        PolicyResponse response = this.policyService.deleteOne(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(response);
     }
 }
