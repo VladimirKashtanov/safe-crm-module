@@ -107,4 +107,49 @@ public class UserRoleManageService {
                         role.getCreatedAt().toString() : null
         );
     }
+
+
+    /**
+     * Удаляет роль по ее идентификатору.
+     * @param id идентификатор роли
+     * @return удаленную сущность.
+     */
+    public UserRoleResponse deleteOne(
+            UUID id
+    ) {
+        /* Поиск роли */
+        UserRoleEntity role = userRoleService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Роль не найдена: id=" + id
+                ));
+        var roleToReturn = role;
+
+        /* Обнуление ссылки на родителя у дочерних ролей */
+        for (UserRoleEntity child : role.getChildRoles()) {
+            child.setParentRole(null);
+            userRoleService.save(child);
+        }
+
+        /* Очищение связей с разрешениями */
+        role.getPermissions().clear();
+
+        /* Очищение связей с пользователями */
+        role.getUsers().clear();
+
+        /* Удаление самой роли */
+        userRoleService.delete(id);
+
+        /* Формирование ответа */
+        return new UserRoleResponse(
+                roleToReturn.getId().toString(),
+                roleToReturn.getName(),
+                roleToReturn.getDescription(),
+                roleToReturn.getParentRole() != null ?
+                        role.getParentRole().getId().toString() : null,
+                roleToReturn.getChildRoles().stream()
+                        .map(r -> r.getId().toString())
+                        .collect(Collectors.toSet()),
+                roleToReturn.getCreatedAt().toString()
+        );
+    }
 }

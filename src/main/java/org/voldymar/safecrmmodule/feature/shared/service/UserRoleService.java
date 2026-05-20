@@ -72,4 +72,16 @@ public class UserRoleService {
     ) {
         return this.userRoleRepository.save(entity);
     }
+
+
+    /**
+     * Удаляет роль по ее идентификатору.
+     *
+     * @param id идентификатор роли.
+     */
+    public void delete(
+            UUID id
+    ) {
+        this.userRoleRepository.deleteById(id);
+    }
 }
